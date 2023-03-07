@@ -19,12 +19,12 @@ public class CommentController {
         return commentService.saveComment(saveDto);
     }
 
-    //example branch test
     @PostMapping(value = "savesubcomment")
     public CommentDto.SaveSubDto subCommentSave(@Valid @RequestBody CommentDto.SaveSubDto saveSubDto){
 
         return commentService.saveSubComment(saveSubDto);
     }
+
     @GetMapping(value = "getcomment")
     public List<CommentDto.GetCommentDto> getComment(@RequestParam("postId") Long postId){
 
