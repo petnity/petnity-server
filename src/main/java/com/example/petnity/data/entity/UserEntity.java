@@ -32,6 +32,10 @@ public class UserEntity extends BaseTimeEntity{
     private String userBirthDay;
     @OneToMany(mappedBy = "ownerEntity")
     private List<PetEntity> petEntityList = new ArrayList<PetEntity>();
+    @OneToMany(mappedBy = "user")
+    private List<PostEntity> postEntityList = new ArrayList<PostEntity>();
+    @OneToMany(mappedBy = "userEntity")
+    private List<CommentEntity> commentEntityList = new ArrayList<CommentEntity>();
 
     public void addPet(PetEntity petEntity){
         this.petEntityList.add(petEntity);
