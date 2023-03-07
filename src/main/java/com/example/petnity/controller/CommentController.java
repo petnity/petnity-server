@@ -12,6 +12,8 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
+    // test comment 2
+
     public CommentController(CommentService commentService){this.commentService = commentService;}
     @PostMapping(value = "savecomment")
     public CommentDto.SaveCommentDto commentSave(@Valid @RequestBody CommentDto.SaveCommentDto saveDto){
