@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
                     .postId(PE.getPostId())
                     .postTitle(PE.getPostTitle())
                     .postBody(PE.getPostBody())
-                    .createdDate(PE.getCreatedDate())
-                    .lastModifiedDate(PE.getLastModifiedDate())
+                    .createdAt(PE.getCreatedAt())
+                    .modifiedAt(PE.getModifiedAt())
                     .commentCount(PE.getCommentEntityList().size())
                     .build();
             getPostDtoList.add(GPD);

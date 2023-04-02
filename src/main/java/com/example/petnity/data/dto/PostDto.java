@@ -28,8 +28,8 @@ public class PostDto {
         private String postTitle;
         private String postBody;
         private int commentCount;
-        private LocalDateTime createdDate;
-        private LocalDateTime lastModifiedDate;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
 
     }
 
