@@ -44,8 +44,8 @@ public class CommentDto {
         private String commentBody;
         private Long postId;
         private List<GetSubCommentDto> subCommentDtoList = new ArrayList<GetSubCommentDto>();
-        private LocalDateTime createdDate;
-        private LocalDateTime lastModifiedDate;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
 
     }
     @Getter
@@ -58,8 +58,8 @@ public class CommentDto {
         private Long commentId;
         private String commentBody;
         private Long ownerCommentId;
-        private LocalDateTime createdDate;
-        private LocalDateTime lastModifiedDate;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
 
     }
 

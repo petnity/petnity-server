@@ -58,16 +58,16 @@ public class CommentServiceImpl implements CommentService {
                         .commentId(SUBCM.getCommentId())
                         .ownerCommentId(SUBCM.getOwnerCommentId())
                         .commentBody(SUBCM.getCommentBody())
-                        .createdDate(SUBCM.getCreatedDate())
-                        .lastModifiedDate(SUBCM.getLastModifiedDate())
+                        .createdAt(SUBCM.getCreatedAt())
+                        .modifiedAt(SUBCM.getModifiedAt())
                         .build();
                 getSubCommentDtoList.add(getSubCommentDto);
             }
             CommentDto.GetCommentDto getCommentDto = CommentDto.GetCommentDto.builder()
                     .commentId(CME.getCommentId())
                     .commentBody(CME.getCommentBody())
-                    .createdDate(CME.getCreatedDate())
-                    .lastModifiedDate(CME.getLastModifiedDate())
+                    .createdAt(CME.getCreatedAt())
+                    .modifiedAt(CME.getModifiedAt())
                     .postId(postId)
                     .subCommentDtoList(getSubCommentDtoList)
                     .build();
