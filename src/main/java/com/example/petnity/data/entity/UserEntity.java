@@ -1,11 +1,11 @@
 package com.example.petnity.data.entity;
 
-import com.example.petnity.data.dto.PetDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,6 +30,16 @@ public class UserEntity extends BaseTimeEntity{
     private String userGender;
     private String userBirthYear;
     private String userBirthDay;
+    private boolean userActivated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<AuthorityEntity> authorities;
+
+
     @OneToMany(mappedBy = "ownerEntity")
     private List<PetEntity> petEntityList = new ArrayList<PetEntity>();
     @OneToMany(mappedBy = "user")
