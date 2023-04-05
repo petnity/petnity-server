@@ -1,6 +1,7 @@
 package com.example.petnity.data.repository;
 
 import com.example.petnity.data.entity.UserEntity;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query(value="select * from userId = :userId", nativeQuery = true)
     List < UserEntity> findByUserId(@Param("user_id") String user_id);
     */
+    @EntityGraph(attributePaths =  "authorities")
+    Optional<UserEntity> findOneWithAuthoritiesByUserAccount(String userAccount);
 }

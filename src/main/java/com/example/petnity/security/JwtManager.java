@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ public class JwtManager {
         Date refreshTokenExpiresIn = new Date(now.getTime() + refreshTokenExpiredTime);
 
         String accessToken = Jwts.builder()
-                .setSubject(userInfoDto.getUserEmail())
+                .setSubject(userInfoDto.getUserAccount())
                 .setHeader(createHeader())
                 .setClaims(createClaims(userInfoDto))
                 .setExpiration(expiresIn)
@@ -39,7 +40,7 @@ public class JwtManager {
         LOGGER.info("[JwtManager] Token Expiration :: expiresIn={}", expiresIn);
 
         String refreshToken = Jwts.builder()
-                .setSubject(userInfoDto.getUserEmail())
+                .setSubject(userInfoDto.getUserAccount())
                 .setHeader(createHeader())
                 .setClaims(createClaims(userInfoDto))
                 .setExpiration(refreshTokenExpiresIn)
@@ -61,7 +62,7 @@ public class JwtManager {
         Date now = new Date();
 
         String accessToken = Jwts.builder()
-                .setSubject(userInfoDto.getUserEmail())
+                .setSubject(userInfoDto.getUserAccount())
                 .setHeader(createHeader())
                 .setClaims(createClaims(userInfoDto))
                 .setExpiration(new Date(now.getTime() + accessTokenExpiredTime))
@@ -92,6 +93,7 @@ public class JwtManager {
             if (isTokenExpired(refreshToken)) {
                 LOGGER.info("[JwtManager] Exception :: Refresh Token Expired. refreshTokenExpiration={}", refreshTokenExpiration);
                 accessToken = "";
+
             }
             else {
                 accessToken = getNewAccessToken(accessToken);
@@ -167,12 +169,12 @@ public class JwtManager {
 
 
     public String getUserAccountFromToken(String token) {
-        LOGGER.info("[JwtManager] Perform {} of Petnity API.", "getUserEmailFromToken");
+        LOGGER.info("[JwtManager] Perform {} of Petnity API.", "getUserAccountFromToken");
 
-        String userEmail = getClaims(token).get("userAccount", String.class);
-        LOGGER.info("[JwtManager] User :: userEmail = {} ", userEmail);
+        String userAccount = getClaims(token).get("userAccount", String.class);
+        LOGGER.info("[JwtManager] User :: userAccount = {} ", userAccount);
 
-        return userEmail;
+        return userAccount;
     }
 
 
@@ -194,7 +196,7 @@ public class JwtManager {
 
         UserDto.Info userInfoDto = UserDto.Info.builder()
                 .userId(userId)
-                .userEmail(userAccount)
+                .userAccount(userAccount)
                 .userPassword(userPassword)
                 .build();
 
