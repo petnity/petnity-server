@@ -40,7 +40,6 @@ public class UserController {
         this.jwtManager = jwtManager;
     }
 
-
     @PostMapping("/user/signup")
     public ResponseEntity<UserDto.TokenInfo> createUser(@Valid @RequestBody UserDto.Info userInfoDto){
         long StartTime = System.currentTimeMillis();

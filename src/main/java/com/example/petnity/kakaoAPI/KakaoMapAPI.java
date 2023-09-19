@@ -53,7 +53,7 @@ public class KakaoMapAPI {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            //http 요청 및 응답 완료 후 BufferedReader를 닫아줍니다
+            //http 요청 및 응답 완료 후 BufferedReader를 닫아줍니다ㄱㅡㄴㄷㅔ
             try {
                 if (br != null) {
                     br.close();
