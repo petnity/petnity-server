@@ -42,9 +42,7 @@ public class UserController {
 
     @PostMapping("/user/signup")
     public ResponseEntity<UserDto.TokenInfo> createUser(@Valid @RequestBody UserDto.Info userInfoDto){
-        long StartTime = System.currentTimeMillis();
 
-        LOGGER.info("[UserController] perform {} of Petnity API.", "createUser");
         LOGGER.info("[UserController] Param :: userInfoDto = {}", userInfoDto.toString());
 
         UserDto.Response signedUser = userService.getUserByUserAccount(userInfoDto.getUserAccount());
@@ -52,7 +50,6 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: User Account Duplicatied");
 
             UserDto.TokenInfo badTokenInfo = UserDto.TokenInfo.builder().build();
-            LOGGER.info("[UserController] Token :: badTokenInfo = {}, Response Time = {}ms", badTokenInfo.toString(), System.currentTimeMillis() - StartTime);
             return ResponseEntity.status(HttpStatus.OK).body(badTokenInfo);
         }
 
@@ -61,7 +58,6 @@ public class UserController {
 
         userInfoDto.setUserId(savedUser.getUserId());
         UserDto.TokenInfo tokenInfo = jwtManager.createTokenInfo(userInfoDto);
-        LOGGER.info("[UserController] Token :: tokenInfo = {}, Response Time = {}ms", tokenInfo.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(tokenInfo);
     }
@@ -69,9 +65,6 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<UserDto.Response> getUserByToken(@RequestBody UserDto.TokenInfo userTokenInfoDto) {
-        long StartTime = System.currentTimeMillis();
-
-        LOGGER.info("[UserController] Perform {} of Petnity API.", "getUserByToken");
         LOGGER.info("[UserController] Param :: userTokenInfoDto = {}", userTokenInfoDto);
 
         String checkedAccessToken = jwtManager.tokenValidationChecker(userTokenInfoDto);
@@ -81,7 +74,6 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: Token Expired");
 
             UserDto.Response badResponse = UserDto.Response.builder().build();
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -92,7 +84,6 @@ public class UserController {
 
         UserDto.Response response = userService.getUserByUserId(userId);
         response.setAccessToken(checkedAccessToken);
-        LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", response.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -100,9 +91,7 @@ public class UserController {
 
     @PostMapping("/user/pets")
     public ResponseEntity<UserDto.PetList> getPetsByToken(@RequestBody UserDto.TokenInfo userTokenInfoDto){
-        long StartTime = System.currentTimeMillis();
 
-        LOGGER.info("[UserController] perform {} of Petnity API.", "getPetByToken");
         LOGGER.info("[UserController] Param :: userTokenInfoDto = {}", userTokenInfoDto);
 
         String checkedAccessToken = jwtManager.tokenValidationChecker(userTokenInfoDto);
@@ -111,7 +100,6 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: Token Expired");
 
             UserDto.PetList badResponse = UserDto.PetList.builder().build();
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -132,7 +120,6 @@ public class UserController {
         response.setAccessToken(checkedAccessToken);
 
         // TODO Add new access token in Response
-        LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", response, System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -140,9 +127,7 @@ public class UserController {
 
     @PostMapping(value = "/user/update")
     public ResponseEntity<UserDto.Response> updateUser(@Valid @RequestBody UserDto.Request userDto){
-        long StartTime = System.currentTimeMillis();
 
-        LOGGER.info("[UserController] perform {} of Petnity API.", "updateUser");
         LOGGER.info("[UserController] Param :: userDtoInfo = {}", userDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
@@ -156,7 +141,6 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: Token Expired");
 
             UserDto.Response badResponse = UserDto.Response.builder().build();
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -170,14 +154,12 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: Unmatched User");
 
             UserDto.Response badResponse = UserDto.Response.builder().build();
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badResponse);
         }
 
         UserDto.Response response = userService.saveUser(userDto);
         response.setAccessToken(checkedAccessToken);
-        LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", response.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -185,9 +167,6 @@ public class UserController {
 
     @DeleteMapping(value = "/userId/delete")
     public ResponseEntity<String> deleteUseByUserId(@RequestBody UserDto.TokenInfo userTokenInfoDto){
-        long StartTime = System.currentTimeMillis();
-
-        LOGGER.info("[UserController] perform {} of Petnity API.", "deleteUserbyUserId");
         LOGGER.info("[UserController] Param :: userTokenInfoDto = {}", userTokenInfoDto);
 
         String checkedAccessToken = jwtManager.tokenValidationChecker(userTokenInfoDto);
@@ -196,7 +175,6 @@ public class UserController {
             LOGGER.warn("[UserController] Exception :: Token Expired");
 
             String badResponse = "Token Expired";
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badResponse, System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -208,7 +186,6 @@ public class UserController {
         userService.deleteUserByUserId(userId);
 
         String response = userId + " is deleted";
-        LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", response, System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

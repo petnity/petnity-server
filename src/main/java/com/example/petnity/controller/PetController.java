@@ -36,8 +36,6 @@ public class PetController {
     // TODO PetController how to response new access Token
     @PostMapping("/pet/create")
     public ResponseEntity<PetDto.Response> createPet(@Valid @RequestBody PetDto.Request petDto){
-        long StartTime = System.currentTimeMillis();
-        LOGGER.info("[PetController] perform {} of Petnity API.", "createPet");
         LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
@@ -52,7 +50,6 @@ public class PetController {
             LOGGER.info("[PetController] Exception :: Token Expired");
 
             PetDto.Response badResponse = PetDto.Response.builder().build();
-            LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -65,14 +62,12 @@ public class PetController {
             LOGGER.warn("[PetController] Exception :: Unmatched User");
 
             PetDto.Response badResponse = PetDto.Response.builder().build();
-            LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badResponse);
         }
 
         PetDto.Response response = petService.savePet(petDto);
         response.setAccessToken(checkedAccessToken);
-        LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", response.toString(), System.currentTimeMillis() - StartTime);
         
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -80,8 +75,6 @@ public class PetController {
 
     @PostMapping("/pet/udpate")
     public ResponseEntity<PetDto.Response> updatePet(@Valid @RequestBody PetDto.Request petDto){
-        long StartTime = System.currentTimeMillis();
-        LOGGER.info("[PetController] perform {} of Petnity API.", "updatePet");
         LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
@@ -96,7 +89,6 @@ public class PetController {
             LOGGER.warn("[PetController] Exception :: Token Expired");
 
             PetDto.Response badResponse = PetDto.Response.builder().build();
-            LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -104,15 +96,13 @@ public class PetController {
 
         PetDto.Response response = petService.savePet(petDto);
         response.setAccessToken(checkedAccessToken);
-        LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", response.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("/pet/")
     public ResponseEntity<PetDto.Response> getPet(@RequestBody PetDto.Request petDto) {
-        long StartTime = System.currentTimeMillis();
-        LOGGER.info("[PetController] perform {} of Petnity API.", "getPet");
+
         LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
@@ -127,7 +117,6 @@ public class PetController {
             LOGGER.warn("[PetController] Exception :: Token Expired");
 
             PetDto.Response badResponse = PetDto.Response.builder().build();
-            LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -140,12 +129,10 @@ public class PetController {
             LOGGER.warn("[PetController] Exception :: There is no {}", petId);
 
             PetDto.Response badResponse = PetDto.Response.builder().build();
-            LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", badResponse.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(badResponse);
         }
         response.setAccessToken(checkedAccessToken);
-        LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", response.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -153,8 +140,6 @@ public class PetController {
     
     @DeleteMapping("/pet/delete")
     public ResponseEntity<UserDto.TokenInfo> deletePet(@RequestBody PetDto.Request petDto) {
-        long StartTime = System.currentTimeMillis();
-        LOGGER.info("[PetController] perform {} of Petnity API.", "deleteUser");
         LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
         
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
@@ -169,7 +154,6 @@ public class PetController {
             LOGGER.warn("[PetController] Exception :: Token Expired");
 
             UserDto.TokenInfo badResponse = UserDto.TokenInfo.builder().build();
-            LOGGER.info("[PetController] Response :: Response Time = {}ms", System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(badResponse);
         }
@@ -180,7 +164,6 @@ public class PetController {
         petService.deletePetByPetId(petId);
 
         String message = petId + " is deleted";
-        LOGGER.info("[PetController] Response :: response = {}, Response Time = {}ms", message, System.currentTimeMillis() - StartTime);
 
         UserDto.TokenInfo response = UserDto.TokenInfo.builder()
                 .accessToken(checkedAccessToken)

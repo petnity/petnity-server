@@ -27,9 +27,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<UserDto.TokenInfo> login(@RequestBody UserDto.Login userLoginDto) {
-        long StartTime = System.currentTimeMillis();
 
-        LOGGER.info("[LoginController] Perform {} of Petnity API.", "login");
         LOGGER.info("[LoginController] param = {}.", userLoginDto.toString());
 
         UserDto.Info userInfo = userService.getUserInfoByUserAccount(userLoginDto.getUserAccount());
@@ -45,13 +43,11 @@ public class LoginController {
             LOGGER.info("[LoginController] Exception :: Password Miss Match");
 
             UserDto.TokenInfo badTokenInfo = UserDto.TokenInfo.builder().build();
-            LOGGER.info("[UserController] Response :: response = {}, Response Time = {}ms", badTokenInfo.toString(), System.currentTimeMillis() - StartTime);
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(badTokenInfo);
         }
 
         UserDto.TokenInfo response = jwtManager.createTokenInfo(userInfo);
-        LOGGER.info("[LoginController] Response :: response = {}, Response Time = {}ms", response, System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
