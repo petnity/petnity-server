@@ -36,10 +36,6 @@ public class KakaoLoginController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<UserDto.TokenInfo> kakaoLogin(@RequestBody KakaoDto.TokenInfo kakaoTokenInfo) throws IOException {
-        long StartTime = System.currentTimeMillis();
-
-        LOGGER.info("[KakaoLoginController] Perform {} of Petnity API.", "kakaoLogin");
-        LOGGER.info("[KakaoLoginController] Param :: kakaoTokenInfo = {}.", kakaoTokenInfo.toString());
 
         UserDto.Info userInfo = kakaoLoginService.getUserInfo(kakaoTokenInfo.getAccessToken());
         LOGGER.info("[KakaoLoginController] User :: userInfo = {}.", userInfo.toString());
@@ -54,7 +50,6 @@ public class KakaoLoginController {
 
         userInfo.setUserId(response.getUserId());
         UserDto.TokenInfo tokenInfo = jwtManager.createTokenInfo(userInfo);
-        LOGGER.info("[KakaoLoginController] Token :: tokenInfo = {}, Response Time = {}ms", tokenInfo.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(tokenInfo);
     }
@@ -62,11 +57,8 @@ public class KakaoLoginController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> kakaoLogout(@RequestBody KakaoDto.TokenInfo kakaoTokenInfo) {
-        long StartTime = System.currentTimeMillis();
-        LOGGER.info("[KakaoLoginController] Perform {} of Petnity API.", "kakaoLogout");
 
         kakaoLoginService.kakaoLogout(kakaoTokenInfo.getAccessToken());
-        LOGGER.info("[KakaoLoginController] Response :: Response Time = {}ms",System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body("Logout");
     }

@@ -47,10 +47,6 @@ public class KakaoLoginWebController {
 
     @GetMapping(value = "/login")
     public ResponseEntity<UserDto.TokenInfo> kakaoLogin(@RequestParam String code) throws IOException {
-        long StartTime = System.currentTimeMillis();
-
-        LOGGER.info("[KakaoLoginWebController] perform {} of Petnity API.", "kakaoLogin");
-        LOGGER.info("[KakaoLoginController] Param :: Code = {}.", code);
 
         KakaoDto.TokenInfo kakaoTokenInfo = kakaoLoginWebService.getKakaoTokenInfo(code);
         LOGGER.info("[KakaoLoginWebController] Token :: kakaoTokenInfo = {}", kakaoTokenInfo);
@@ -68,7 +64,6 @@ public class KakaoLoginWebController {
 
         userInfo.setUserId(response.getUserId());
         UserDto.TokenInfo tokenInfo = jwtManager.createTokenInfo(userInfo);
-        LOGGER.info("[KakaoLoginWebController] Token :: tokenInfo = {}, Response Time = {}ms", tokenInfo.toString(), System.currentTimeMillis() - StartTime);
 
         return ResponseEntity.status(HttpStatus.OK).body(tokenInfo);
     }
