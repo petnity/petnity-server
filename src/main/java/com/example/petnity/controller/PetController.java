@@ -36,7 +36,7 @@ public class PetController {
     // TODO PetController how to response new access Token
     @PostMapping("/pet/create")
     public ResponseEntity<PetDto.Response> createPet(@Valid @RequestBody PetDto.Request petDto){
-        LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
+        LOGGER.info("[PetController] Param :: petRequest = {}", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
                 .accessToken(petDto.getAccessToken())
@@ -75,7 +75,7 @@ public class PetController {
 
     @PostMapping("/pet/udpate")
     public ResponseEntity<PetDto.Response> updatePet(@Valid @RequestBody PetDto.Request petDto){
-        LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
+        LOGGER.info("[PetController] Param :: petRequest = {}", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
                 .accessToken(petDto.getAccessToken())
@@ -103,7 +103,7 @@ public class PetController {
     @PostMapping("/pet/")
     public ResponseEntity<PetDto.Response> getPet(@RequestBody PetDto.Request petDto) {
 
-        LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
+        LOGGER.info("[PetController] Param :: petRequest = {}", petDto.toString());
 
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
                 .accessToken(petDto.getAccessToken())
@@ -140,7 +140,7 @@ public class PetController {
     
     @DeleteMapping("/pet/delete")
     public ResponseEntity<UserDto.TokenInfo> deletePet(@RequestBody PetDto.Request petDto) {
-        LOGGER.info("[PetController] Param :: petRequest", petDto.toString());
+        LOGGER.info("[PetController] Param :: petRequest = {}", petDto.toString());
         
         UserDto.TokenInfo userTokenInfoDto = UserDto.TokenInfo.builder()
                 .accessToken(petDto.getAccessToken())
